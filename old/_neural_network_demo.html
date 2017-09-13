@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="encoding" content="utf-8"> 
+        <script src="synaptic.js"></script>
+        <script src="vector.js"></script>
+        <style>
+body { margin:0; }
+#canvas {
+    height:85vh;
+    width:95vw;
+    margin-left:50px;
+}
+#input {
+    height:10vh;
+    width:100vw;
+    display:flex;
+}
+#input input {
+    width: 50px;
+}
+#input >*{
+    display:grid;
+    margin-left:20px;
+}
+        </style>
+    </head>
+    <body>
+        <div id="input">
+            <label>Chaos: <input type="number" step="0.1" min="0.1" max="1.0" id="rate" value="0.3"></label>
+            <!-- <label>Max FPS: <input type="number" step="1" min="5" max="500" id="fps" value="100"></label> -->
+            <label>Creatures: <input type="number" step="1" min="10" max="100" id="count" value="15"></label>
+            <label>Size: <input type="number" step="0.1" min="0.1" max="1.0" id="mass" value="0.3"></label>
+            <label>Speed: <input type="number" step="1" min="1" max="100" id="speed" value="5"></label>
+            <label>Shove: <input type="number" step="0.1" min="0.1" max="1.0" id="force" value="0.2"></label>
+            <label>Color: <input type="color" id="color" value="#222222"></label>
+            <label>Calcs/second: <span id="calc"></span></label>
+            <label>Actual FPS: <span id="render"></span></label>
+            <label>Pause: <input type="checkbox" id="pause"></label>
+            <label>Boundaries: <select id="boundries">
+                <option value="avoid" selected>Avoid</option>
+                <option value="bounce">Bounce</option>
+                <option value="crash">Collide</option>
+                <option value="none">None</option>
+            </select></label>
+            <label>Mouse: <select id="mouse">
+                <option value="0" selected>Uninterested</option>
+                <option value="1">Curious</option>
+                <option value="2">Aggressive</option>
+            </select></label>
+        </div>
+        <canvas id="canvas"></canvas>
+        <script src="creature.js"></script>
+        <script src="world.js"></script>
+        <script defer>blastoff();</script>
+    </body>
+</html>

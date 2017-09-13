@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="synaptic.js"></script>
+        <script src="vector.js"></script>
+        <style>
+body { margin:0; }
+#canvas {
+    height:85vh;
+    width:95vw;
+    margin-left:50px;
+}
+#input {
+    height:10vh;
+    width:100vw;
+    display:flex;
+}
+#input input {
+    width: 50px;
+}
+#input >*{
+    display:grid;
+    margin-left:20px;
+}
+#calcs:before{
+    content: attr(data-before);
+}
+#calcs:after{
+    content: attr(data-after);
+}
+#frames:before{
+    content: attr(data-before);
+}
+#frames:after{
+    content: attr(data-after);
+}
+        </style>
+    </head>
+    <body>
+        <div id="input">
+            <label>Swarms: <input type="number" step="1" min="1" max="5" id="swarms"></label>
+            <label>Active: <input type="number" step="1" min="1" max="1" id="selected"></label>
+            <label>Chaos: <input type="number" step="0.1" min="0.1" max="1.0" id="rate"></label>
+            <label>Creatures: <input type="number" step="1" min="5" max="30" id="count"></label>
+            <label>Size: <input type="number" step="0.5" min="1" max="20" id="mass"></label>
+            <label>Speed: <input type="number" step="1" min="1" max="50" id="speed"></label>
+            <label>Shove: <input type="number" step="0.1" min="0.1" max="1.0" id="force"></label>
+            <label hidden="true">Color: <input type="number" min="0.0" max="360.0" id="color"></label> 
+            <label>Pause: <input type="checkbox" id="pause"></label>
+            <button id="step">Next Frame</button>
+            <label>Boundaries: <select id="borders">
+                <option value="avoid" selected>Avoid</option>
+                <option value="bounce">Bounce</option>
+                <option value="crash">Collide</option>
+                <option value="none">None</option>
+            </select></label>
+            <label>Mouse: <select id="mouse">
+                <option value="0" selected>Uninterested</option>
+                <option value="1">Curious</option>
+                <option value="2">Aggressive</option>
+            </select></label>
+            <label>Updates per second: <span id="calcs"> - Avg: </span></label>
+            <label>Actual FPS Rate: <span id="frames"> - Avg: </span></label>
+        </div>
+        <canvas id="canvas"></canvas>
+        <script src="creature.js"></script>
+        <script src="swarm.js"></script>
+        <script src="world.js"></script>
+        <script defer>blastoff();</script>
+    </body>
+</html>
