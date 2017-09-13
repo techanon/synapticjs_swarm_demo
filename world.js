@@ -113,37 +113,53 @@ async function blastoff(){
 	document.querySelectorAll('input[type="number"]').forEach(node=>node.addEventListener('change',limits));
 
 	nodes.mass.addEventListener('change',e=>{  // mass
+		limits(e);
 		if (world.selected == null || !swarms.length) return;
 		world.selected.props({mass:parseFloat(e.target.value)});
 	});
 	nodes.force.addEventListener('change',e=>{  // force
+		limits(e);
 		if (world.selected == null || !swarms.length) return;
 		world.selected.props({force:parseFloat(e.target.value)});
 	});
 	nodes.speed.addEventListener('change',e=>{  // speed
+		limits(e);
 		if (world.selected == null || !swarms.length) return;
 		world.selected.props({speed:parseFloat(e.target.value)});
 	});
 	nodes.color.addEventListener('change',e=>{  // color
+		limits(e);
 		if (world.selected == null || !swarms.length) return;
 		world.selected.props({color:parseFloat(e.target.value)});
 	});
 	nodes.rate.addEventListener('change',e=>{  // rate
+		limits(e);
 		if (world.selected == null || !swarms.length) return;
 		world.selected.rate = parseFloat(e.target.value).toFixed(1);
 	});
 	nodes.count.addEventListener('change',e=>{  // count
-		if (world.selected == null || !swarms.length) return;
-		world.selected.creatureCount = parseInt(e.target.value,10);
-	});
-	nodes.swarms.addEventListener('change',e=>{  // swarms
-		populate(parseInt(e.target.value));
-	});
-	nodes.selected.addEventListener('change',e=>{
-		let index = parseInt(e.target.value);
 		limits(e);
 		if (world.selected == null || !swarms.length) return;
-
+		world.selected.count = parseInt(e.target.value,10);
+	});
+	nodes.swarms.addEventListener('change',e=>{  // swarms
+		limits(e);
+		let val = parseInt(e.target.value);
+		populate(val);
+		if (nodes.selected.value > val)
+			nodes.selected.value = val;
+	});
+	nodes.selected.addEventListener('change',e=>{ // active
+		limits(e);
+		if (!swarms.length) return;
+		world.selected = swarms[parseInt(e.target.value)-1];
+		let {count,rate,properties:{speed,mass,force,color}} = world.selected;
+		nodes.speed.value = speed || nodes.speed.dataset.default;
+		nodes.mass.value = mass || nodes.mass.dataset.default;
+		nodes.force.value = force || nodes.force.dataset.default;
+		nodes.color.value = color || nodes.color.dataset.default;
+		nodes.rate.value = rate || nodes.rate.dataset.default;
+		nodes.count.value = count || nodes.count.dataset.default;
 	});
 
 	async function spawn(){
@@ -152,7 +168,7 @@ async function blastoff(){
 			mass: parseFloat(nodes.mass.value),
 			force: parseFloat(nodes.force.value),
 			speed: parseInt(nodes.speed.value,10),
-			//color: parseFloat(nodes.color.value),
+			color: parseFloat(nodes.color.value),
 			rate: parseFloat(nodes.rate.value)
 		});
 		swarms.push(swarm);

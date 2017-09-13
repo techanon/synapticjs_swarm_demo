@@ -60,7 +60,6 @@ class Creature {
 		y = this.location.y - buffer;
 		x1 = x + Math.cos(angle) * this.base;
 		y1 = y + Math.sin(angle) * this.base;
-		// if (this.special) console.log(angle,Math.cos(angle),Math.sin(angle));
 
 		x2 = x + Math.cos(angle + HALF_PI) * this.base;
 		y2 = y + Math.sin(angle + HALF_PI) * this.base;
@@ -69,9 +68,9 @@ class Creature {
 		y3 = y + Math.sin(angle - HALF_PI) * this.base;
 
 		ctx.lineWidth = 2;
-		// let color = ((this.color.rgb[0] & 0xFF) << 16) | ((this.color.rgb[1] & 0xFF) << 8) | (this.color.rgb[2] & 0xFF)
-		// let hex = '#'+(color).toString(16).substr(0,6);
 		if (this.special) ctx.fillStyle = ctx.strokeStyle = '#ff0000';
+		else if (this.swarm == this.world.selected)
+			ctx.fillStyle = ctx.strokeStyle = '#00cc00';
 		else ctx.fillStyle = ctx.strokeStyle = this.color || '#222222';
 		ctx.beginPath();
 		ctx.moveTo(x1,y1);

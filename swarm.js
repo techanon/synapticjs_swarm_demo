@@ -5,11 +5,10 @@ class Swarm {
         this.world = world;
         this.network = null;
         this.creatures = [];
-        this.creatureCount = count;
-        // this.color = new Vector()
+        this.count = count;
         this.properties = {speed,force,mass,color};
         this.rate = rate || .3;
-        this.populate(this.creatureCount);
+        this.populate(this.count);
     }
 
     props({rate,speed,force,mass,color}) {
@@ -36,9 +35,9 @@ class Swarm {
 
     async populate(count) {
         let current = this.creatures.length;
-        if (typeof count == undefined) count = this.creatures.length;
-        let wait = [];
+        if (typeof count != 'number') count = this.creatures.length;
 		if (current < count) {
+            let wait = [];
 			for (var i = 0; i < count-current; i++)
                 wait.push(this.spawn());
             await Promise.all(wait);
@@ -76,14 +75,13 @@ class Swarm {
 
             // learn
             let target = this.target(creature);
-            // if (creature.special) console.log(target);
 			this.network.propagate(this.rate, target);
 			creature.update();
 		});
     }
 
     async draw() {
-		this.populate(this.creatureCount);
+		this.populate(this.count);
 		this.creatures.forEach(c=>c.draw());
     }
 
@@ -101,35 +99,5 @@ class Swarm {
         ];
 
     }
-
-    // target(c) {
-    //     return [this.targetX(c), this.targetY(c), this.targetAngle(c)];
-    // }
-
-	// targetX (creature){
-    //     let mouse = this.world.mouse;
-    //     let creatures = this.creatures;
-	// 	// if (mouse.location != null && mouse.velocity != null && mouse.cohesion) 
-	// 	// 	creatures = creatures.concat(Array(mouse.cohesion).fill(mouse));
-	// 	var cohesion = creature.cohesion(creatures);
-	// 	return cohesion.x / this.world.width;
-	// }
-
-	// targetY (creature){
-	// 	let {creatures,mouse} = this.world;
-	// 	// if (mouse.location != null && mouse.velocity != null && mouse.cohesion) 
-	// 	// 	creatures = creatures.concat(Array(mouse.cohesion).fill(mouse));
-	// 	var cohesion = creature.cohesion(creatures);
-	// 	return cohesion.y / this.world.height;
-	// }
-
-	// targetAngle (creature){
-	// 	let {creatures,mouse} = this.world;
-	// 	// if (mouse.location != null && mouse.velocity != null) 
-	// 	// 	creatures = creatures.concat(mouse);
-	// 	var alignment = creature.align(creatures);
-	// 	return (alignment.angle() + Math.PI) / (Math.PI*2);
-	// }
-
 
 }
